@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RestaurantAddComponent } from './restaurant-add/restaurant-add.component';
@@ -8,13 +8,16 @@ import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.compo
 import { RestaurantGetComponent } from './restaurant-get/restaurant-get.component';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { RestaurantsService } from './restaurants.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SliderModule } from 'angular-image-slider';
 import { RestaurantsMapComponent } from './restaurants-map/restaurants-map.component';
-import { AgmCoreModule } from '@agm/core'
+import { AgmCoreModule } from '@agm/core';
+import { LoginComponent } from './login/login.component'
 
+import { fakeBackendProvider } from './_services/fake-backend';
+import { JwtInterceptor } from './_services/jwt.interceptor';
+import { ErrorInterceptor } from './_services/error.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { AgmCoreModule } from '@agm/core'
     RestaurantAddComponent,
     RestaurantEditComponent,
     RestaurantGetComponent,
-    RestaurantsMapComponent
+    RestaurantsMapComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +46,11 @@ import { AgmCoreModule } from '@agm/core'
   ],
   providers: [
     RestaurantsService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

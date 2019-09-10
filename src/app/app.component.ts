@@ -6,6 +6,8 @@ import { NavigationCancel,
         NavigationError,
         NavigationStart,
         Router } from '@angular/router';
+import { AuthenticationService } from './_services/authentication.service';
+import { User } from './_models/user';
 
 
 @Component({
@@ -14,8 +16,11 @@ import { NavigationCancel,
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  currentUser: User;
   title = 'restaurant';
-  constructor(private loadingBar: SlimLoadingBarService, private router: Router) {
+  constructor(private loadingBar: SlimLoadingBarService, private router: Router, private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(user => this.currentUser = user);
+    console.info(this.currentUser,'********');
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -33,5 +38,9 @@ export class AppComponent {
     if (event instanceof NavigationError) {
       this.loadingBar.stop();
     }
+  }
+  logout() {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 }

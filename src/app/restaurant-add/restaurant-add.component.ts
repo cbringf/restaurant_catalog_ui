@@ -45,11 +45,8 @@ export class RestaurantAddComponent implements OnInit {
           file: reader.result
       });
       
-        // need to run CD since file load runs outside of zone
        
       };
-      
-      console.info('*******', file)
      this.fileData = file
     // console.info('event', this.fileData)
     }

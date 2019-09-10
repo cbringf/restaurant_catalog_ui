@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Restaurant  from '../Restaurant';
+import Restaurant  from '../_models/Restaurant';
 import { RestaurantsService} from '../restaurants.service';
 @Component({
   selector: 'app-restaurant-get',
@@ -12,7 +12,7 @@ export class RestaurantGetComponent implements OnInit {
 
   deleteRestaurant(id) {
     this.rs.deleteRestaurant(id).subscribe(res => {
-      this.restaurants.data.splice(id, 1);
+      this.restaurants.splice(id, 1);
     });
   }
 
@@ -20,8 +20,7 @@ export class RestaurantGetComponent implements OnInit {
     this.rs
       .getRestaurants()
       .subscribe((data: Restaurant[]) => {
-        this.restaurants = data;
-        console.info('restaurants', data);
+        this.restaurants = data.data;
     });
   }
 
