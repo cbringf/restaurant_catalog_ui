@@ -9,7 +9,11 @@ import { AuthGuard } from './_services/auth.guard';
 import { AppComponent } from './app.component';
 
 const routes: Routes = [
-  { path: '', component: AppComponent, canActivate: [AuthGuard] },
+  {
+    path: '',
+    redirectTo: 'restaurants',
+    pathMatch: 'full'
+  },
   {
     path: 'restaurant/create',
     component: RestaurantAddComponent,

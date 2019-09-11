@@ -20,7 +20,6 @@ export class AppComponent {
   title = 'restaurant';
   constructor(private loadingBar: SlimLoadingBarService, private router: Router, private authenticationService: AuthenticationService) {
     this.authenticationService.currentUser.subscribe(user => this.currentUser = user);
-    console.info(this.currentUser,'********');
     this.router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);
     });
@@ -38,6 +37,7 @@ export class AppComponent {
     if (event instanceof NavigationError) {
       this.loadingBar.stop();
     }
+    console.info()
   }
   logout() {
     this.authenticationService.logout();

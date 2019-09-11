@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders ,HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,6 @@ export class RestaurantsService {
       RestaurantLongitude
 
     };
-  
-    console.log(obj);
     this.http.post(`${this.uri}/restaurant/`, obj)
         .subscribe(res => console.log('Done'));
   }
@@ -33,7 +32,7 @@ export class RestaurantsService {
   getRestaurants() {
     return this
            .http
-           .get(`${this.uri}/restaurant`);
+           .get<any>(`${this.uri}/restaurant`);
   }
 
   editRestaurant(id) {
@@ -60,7 +59,7 @@ export class RestaurantsService {
       .subscribe(res => console.log('Done'));
   }
 
-  deleteRestaurant(id) {
+  deleteRestaurant(id): Observable<any> {
     console.info('id a borrar', id)
     return this.http.delete(`${this.uri}/restaurant/${id}`);
   }
