@@ -1,40 +1,24 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RestaurantAddComponent } from './restaurant-add/restaurant-add.component';
-import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.component';
-import { RestaurantGetComponent } from './restaurant-get/restaurant-get.component';
-import { RestaurantsMapComponent } from './restaurants-map/restaurants-map.component';
-import {LoginComponent} from './login/login.component';
-import { AuthGuard } from './_services/auth.guard';
-import { AppComponent } from './app.component';
+import { AuthGuard } from './core/services/guards/auth.guard';
+
 
 const routes: Routes = [
   {
+    path: 'authentication',
+    loadChildren: () => import('./authentication/authentication.module').then(mod => mod.AuthenticationModule)
+  },
+  {
+    path: 'restaurant',
+    loadChildren: () => import('./restaurant-catalog/restaurant-catalog.module').then(mod => mod.RestaurantCatalogModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '',
-    redirectTo: 'restaurants',
-    pathMatch: 'full'
-  },
-  {
-    path: 'restaurant/create',
-    component: RestaurantAddComponent,
+    redirectTo: '',
+    pathMatch: 'full',
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'edit/:id',
-    component: RestaurantEditComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'restaurants',
-    component: RestaurantGetComponent,
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'restaurants/maps',
-    component: RestaurantsMapComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: 'login', component: LoginComponent },
+  }
 ];
 
 @NgModule({
