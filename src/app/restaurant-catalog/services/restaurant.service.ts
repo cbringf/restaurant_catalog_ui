@@ -1,66 +1,45 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestaurantsService {
-  uri = 'http://localhost:3030';
+  api_url = environment.API_URL;
 
   constructor(private http: HttpClient) { }
 
-  addRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, RestaurantRating, RestaurantImage, RestaurantLatitude, RestaurantLongitude) {
-    const obj = {
-      RestaurantName,
-      RestaurantDescription,
-      RestaurantPhone,
-      RestaurantMail,
-      RestaurantChef,
-      RestaurantChefPhone,
-      RestaurantChefMail,
-      RestaurantRating,
-      RestaurantImage,
-      RestaurantLatitude,
-      RestaurantLongitude
-
-    };
-    this.http.post(`${this.uri}/restaurant/`, obj)
+  addRestaurant(restaurant_obj) {  
+    this.http.post(`${this.api_url}/restaurant/`, restaurant_obj)
         .subscribe(res => console.log('Done'));
   }
 
   getRestaurants() {
     return this
            .http
-           .get<any>(`${this.uri}/restaurant`);
+           .get<any>(`${this.api_url}/restaurant`);
   }
 
   editRestaurant(id) {
     return this
             .http
-            .get(`${this.uri}/restaurant/${id}`);
+            .get(`${this.api_url}/restaurant/${id}`);
   }
 
-  updateRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, RestaurantRating, id) {
-    const obj = {
-      RestaurantName, 
-      RestaurantDescription, 
-      RestaurantPhone, 
-      RestaurantMail, 
-      RestaurantChef, 
-      RestaurantChefPhone, 
-      RestaurantChefMail, 
-      RestaurantRating
-    };
-    
+  updateRestaurant(restaurant_obj, id) {
+    console.info('88888888888888888', id);
+    console.info('88888888888888888', restaurant_obj);
+
     this
       .http
-      .patch(`${this.uri}/restaurant/${id}`, obj)
+      .patch(`${this.api_url}/restaurant/edit/${id}`, restaurant_obj)
       .subscribe(res => console.log('Done'));
   }
 
   deleteRestaurant(id): Observable<any> {
     console.info('id a borrar', id)
-    return this.http.delete(`${this.uri}/restaurant/${id}`);
+    return this.http.delete(`${this.api_url}/restaurant/${id}`);
   }
 }

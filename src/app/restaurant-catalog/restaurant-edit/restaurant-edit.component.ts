@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl,Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestaurantsService } from '../services/restaurant.service';
 @Component({
@@ -16,21 +16,22 @@ export class RestaurantEditComponent implements OnInit {
   }
 
   createForm() {
-    this.angForm = this.fb.group({
-      RestaurantName: ['', Validators.required ],
-      RestaurantDescription: ['', Validators.required ],
-      RestaurantContact: ['', Validators.required ],
-      RestaurantPhone: ['', Validators.required ],
-      RestaurantMail: ['', Validators.required ],
-      RestaurantChef: ['', Validators.required ],
-      RestaurantChefPhone: ['', Validators.required ],
-      RestaurantChefMail: ['', Validators.required ]
-    });
+    this.angForm = new FormGroup({
+      RestaurantName: new FormControl('', [Validators.required]),
+      RestaurantDescription: new FormControl(''),
+      RestaurantPhone: new FormControl('', [Validators.required]),
+      RestaurantMail: new FormControl('', [Validators.required, Validators.email]),
+      RestaurantChef: new FormControl('', [Validators.required]),
+      RestaurantChefPhone: new FormControl('', [Validators.required]),
+      RestaurantChefMail: new FormControl('', [Validators.required, Validators.email]),
+      RestaurantRating: new FormControl('')
+   });
   }
 
-  updateRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, RestaurantRating, id) {
+  updateRestaurant(form_data, id) {
     this.route.params.subscribe(params => {
-      this.rs.updateRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, RestaurantRating, params.id);
+      console.info('params', params)
+      this.rs.updateRestaurant(form_data.value, id);
       this.router.navigate(['restaurant']);
     });
   }

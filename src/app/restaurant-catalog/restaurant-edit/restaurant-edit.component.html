@@ -1,4 +1,4 @@
-<div class="card">
+<!-- <div class="card">
     <div class="card-body">
       <form class="container" [formGroup]="angForm" novalidate>
         <div class="form-group">
@@ -80,18 +80,78 @@
               Restaurant Chef mail is required.
             </div>
         </div>
-        <ngb-rating [(rate)]="currentRate || restaurant.RestaurantRating"></ngb-rating>
-        <hr>
+        <star-rating [starType]="'svg'" [rating]="currentRate || restaurant.RestaurantRating"></star-rating> -->
+        <!-- <ngb-rating [(rate)]="currentRate || restaurant.RestaurantRating"></ngb-rating> -->
+        <!-- <hr>
         <pre >Rate: <b>{{currentRate || restaurant.RestaurantRating}}</b></pre>
         
         <div class="form-group">
             <button (click) = "updateRestaurant(RestaurantName.value, RestaurantDescription.value, RestaurantPhone.value, RestaurantMail.value,RestaurantChef.value, RestaurantChefPhone.value,RestaurantChefMail.value, currentRate, restaurant._id)" type="submit" class="btn btn-primary">
                 Update Restaurant
-            </button>
+            </button> -->
             <!-- [disabled]="angForm.pristine || angForm.invalid" > -->
-        </div>
+        <!-- </div>
       </form>
     </div>
-  </div>
+  </div> -->
 
+  <mat-card class="example-card">
+      <mat-card-header>
+          <mat-card-subtitle style="color:black">Create Restaurant</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content  class="example-container">
+          <form class="example-form" [formGroup]="angForm">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Restaurant Name" formControlName="RestaurantName" [(ngModel)] = "restaurant.RestaurantName">
+              <mat-error *ngIf="angForm.controls['RestaurantName'].invalid && (angForm.controls['RestaurantName'].dirty || angForm.controls['RestaurantName'].touched) " class="alert alert-danger">Restaurant Name is required</mat-error>
+            </mat-form-field>
+          
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Restaurant Description" formControlName="RestaurantDescription" [(ngModel)] = "restaurant.RestaurantDescription"></textarea>
+            </mat-form-field>
+            <mat-card-subtitle style="color:black">Contact Data</mat-card-subtitle>
+            <mat-form-field class="example-full-width">
+              <input type="tel" matInput placeholder="Restaurant phone" formControlName="RestaurantPhone" required [(ngModel)] = "restaurant.RestaurantPhone">
+              <mat-icon matSuffix>mode_edit</mat-icon>
+              <mat-error *ngIf="angForm.controls['RestaurantPhone'].invalid && (angForm.controls['RestaurantPhone'].dirty || angForm.controls['RestaurantPhone'].touched)">Restaurant phone is required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Restaurant  email" formControlName="RestaurantMail" required [(ngModel)] = "restaurant.RestaurantMail">
+                <mat-error *ngIf="angForm.controls['RestaurantMail'].invalid && (angForm.controls['RestaurantMail'].dirty || angForm.controls['RestaurantMail'].touched)">Please enter a valid email address</mat-error>
+                <mat-error *ngIf="angForm.controls['RestaurantMail'].required">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-card-subtitle style="color:black">Chef</mat-card-subtitle>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Restaurant Chef" formControlName="RestaurantChef" required [(ngModel)] = "restaurant.RestaurantChef">
+                <mat-error *ngIf="angForm.controls['RestaurantChef'].invalid && (angForm.controls['RestaurantChef'].dirty || angForm.controls['RestaurantChef'].touched) " class="alert alert-danger">Restaurant Chef Name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input type="tel" matInput placeholder="Restaurant Chef Phone" formControlName="RestaurantChefPhone" required required [(ngModel)] = "restaurant.RestaurantChefPhone">
+                <mat-icon matSuffix>mode_edit</mat-icon>
+                <mat-error *ngIf="angForm.controls['RestaurantChefPhone'].invalid && (angForm.controls['RestaurantChefPhone'].dirty || angForm.controls['RestaurantChefPhone'].touched)">Restaurant chef phone is required</mat-error>
+              </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput placeholder="Restaurant Chef Mail" formControlName="RestaurantChefMail" required [(ngModel)] = "restaurant.RestaurantChefMail">
+                <mat-error *ngIf="angForm.controls['RestaurantChefMail'].invalid && (angForm.controls['RestaurantChefMail'].dirty || angForm.controls['RestaurantChefMail'].touched)">Please enter a valid email address</mat-error>
+                <mat-error *ngIf="angForm.controls['RestaurantChefMail'].required">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <span>Restaurant Rating: <star-rating-control [starType]="'svg'" formControlName="RestaurantRating" [(ngModel)] = "restaurant.RestaurantRating"></star-rating-control></span>
+                <!-- <star-rating [starType]="'svg'" [rating]="currentRate"></star-rating> -->
+                <!-- <pre>{{ angForm.value.RestaurantRating | json }}</pre> -->
+        
+            
+          </form>
+          <mat-divider></mat-divider>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+          <button mat-raised-button color="primary" [disabled]="angForm.pristine || angForm.invalid" (click)=updateRestaurant(angForm,restaurant._id)>Edit</button>
+          <!-- <button mat-raised-button>SHARE</button> -->
+        </mat-card-actions>
+  </mat-card>
+  
 

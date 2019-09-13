@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantsService } from '../services/restaurant.service';
 @Component({
   selector: 'app-restaurant-add',
   templateUrl: './restaurant-add.component.html',
-  styles: []
+  styleUrls: ['./restaurant-add.component.css']
 })
 export class RestaurantAddComponent implements OnInit {
 
@@ -14,30 +14,30 @@ export class RestaurantAddComponent implements OnInit {
   fileData: File = null;
   uri = 'http://localhost:3030';
   constructor(
-    private fb: FormBuilder, 
     private rs: RestaurantsService, 
     private http: HttpClient,
     private router: Router,
     ) {
-    this.createForm();
+      this.angForm = new FormGroup({
+        RestaurantName: new FormControl('', [Validators.required]),
+        RestaurantDescription: new FormControl(''),
+        RestaurantPhone: new FormControl('', [Validators.required]),
+        RestaurantMail: new FormControl('', [Validators.required, Validators.email]),
+        RestaurantChef: new FormControl('', [Validators.required]),
+        RestaurantChefPhone: new FormControl('', [Validators.required]),
+        RestaurantChefMail: new FormControl('', [Validators.required, Validators.email]),
+        RestaurantRating: new FormControl('')
+     });
   }
-  currentRate = 8;
+  currentRate = 2.5;
+  
+  
 
-  createForm() {
-    this.angForm = this.fb.group({
-      RestaurantName: ['', Validators.required ],
-      RestaurantDescription: ['', Validators.required ],
-      RestaurantContact: ['', Validators.required ],
-      RestaurantPhone: ['', Validators.required ],
-      RestaurantMail: ['', Validators.required ],
-      RestaurantChef: ['', Validators.required ],
-      RestaurantChefPhone: ['', Validators.required ],
-      RestaurantChefMail: ['', Validators.required ],
-      RestaurantImage:['', Validators.required ],
-      RestaurantLatitude:['', Validators.required ],
-      RestaurantLongitude:['', Validators.required ]
-    });
-  }
+  // getErrorMessage() {
+  //   return this.RestaurantMail.hasError('required') ? 'You must enter a value' :
+  //       this.RestaurantMail.hasError('email') ? 'Not a valid email' :
+  //           '';
+  // }
 
   fileProgress(event) {
     const reader = new FileReader();
@@ -68,11 +68,15 @@ export class RestaurantAddComponent implements OnInit {
           alert('SUCCESS !!');
         })
   }
+
+  add(form_data){
+    console.info('test', form_data);
+  }
   
 
-  addRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, currentRate, RestaurantImage, RestaurantLatitude, RestaurantLongitude) {
-    this.rs.addRestaurant(RestaurantName, RestaurantDescription, RestaurantPhone, RestaurantMail, RestaurantChef, RestaurantChefPhone, RestaurantChefMail, currentRate, RestaurantImage, RestaurantLatitude, RestaurantLongitude);
-    this.router.navigate(['restaurants']);
+  addRestaurant(form_data) {
+    this.rs.addRestaurant(form_data.value);
+    this.router.navigate(['restaurant']);
   }
 
   ngOnInit() {
