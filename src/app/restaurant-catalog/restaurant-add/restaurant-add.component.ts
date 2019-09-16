@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RestaurantsService } from '../services/restaurant.service';
+import { PhoneValidator } from '../validators/phone.validator';
+import { Country } from '../models/country.model';
 
 @Component({
   selector: 'app-restaurant-add',
@@ -23,7 +25,12 @@ export class RestaurantAddComponent implements OnInit {
   markers: any;
   address: string;
   private geoCoder;
- 
+  currentRate = 2.5;
+  country_phone_group: FormGroup;
+  
+  countries = [
+    new Country('CU', 'Cuba')
+  ];
   @ViewChild('search', {static: false}) private searchElementRef: ElementRef;
 
   constructor(
@@ -33,16 +40,46 @@ export class RestaurantAddComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone
     ) {
+      let country = new FormControl(this.countries[0], Validators.required);
+
+      let phone = new FormControl('', {
+        validators: Validators.compose([
+          Validators.required,
+          PhoneValidator.validCountryPhone(country)
+        ])
+      });
+
+      this.country_phone_group = new FormGroup({
+        country: country,
+        phone: phone
+      });
       this.angForm = new FormGroup({
+        country: new FormControl(this.countries[0], Validators.required),
+        // phone: new FormControl('', {
+        //   validators: Validators.compose([
+        //     Validators.required,
+        //     PhoneValidator.validCountryPhone(country)
+        //   ])
+        // }),
         RestaurantName: new FormControl('', [Validators.required]),
         RestaurantDescription: new FormControl(''),
-        RestaurantPhone: new FormControl('', [Validators.required]),
+        RestaurantPhone: new FormControl('', {
+          validators: Validators.compose([
+            Validators.required,
+            PhoneValidator.validCountryPhone(country)
+          ])
+        }),
         RestaurantMail: new FormControl('', Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
         ])),
         RestaurantChef: new FormControl('', [Validators.required]),
-        RestaurantChefPhone: new FormControl('', [Validators.required]),
+        RestaurantChefPhone: new FormControl('', {
+          validators: Validators.compose([
+            Validators.required,
+            PhoneValidator.validCountryPhone(country)
+          ])
+        }),
         RestaurantChefMail: new FormControl('', Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -51,9 +88,28 @@ export class RestaurantAddComponent implements OnInit {
         RestaurantLat: new FormControl('', Validators.required),
         RestaurantLng: new FormControl('', Validators.required),
         RestaurantAddress: new FormControl('', Validators.required),
-     });
+        country_phone: this.country_phone_group
+      })
   }
-  currentRate = 2.5;
+  
+  validation_messages = {
+    'fullname': [
+      { type: 'required', message: 'Full name is required' }
+    ],
+    'bio': [
+      { type: 'maxlength', message: 'Bio cannot be more than 256 characters long' },
+    ],
+    'gender': [
+      { type: 'required', message: 'Please select your gender' },
+    ],
+    'birthday': [
+      { type: 'required', message: 'Please insert your birthday' },
+    ],
+    'phone': [
+      { type: 'required', message: 'Phone is required' },
+      { type: 'validCountryPhone', message: 'Phone incorrect for the country selected' }
+    ]
+  };
 
   restaurant_validation_messages = {
     'email': [
