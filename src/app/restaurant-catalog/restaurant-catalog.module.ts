@@ -9,7 +9,7 @@ import { RestaurantGetComponent } from './restaurant-get/restaurant-get.componen
 import { RestaurantsService } from './services/restaurant.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../core/material/material.module';
-
+import { AgmCoreModule } from '@agm/core';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -21,7 +21,14 @@ import { MaterialModule } from '../core/material/material.module';
     ReactiveFormsModule,
     // NgbModule,
     StarRatingModule.forRoot(),
-    RestaurantCatalogRoutingModule
+    RestaurantCatalogRoutingModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCSIFuXPQXel1splGkx5ElXoU1bL60Jn-I'
+      /* apiKey is required, unless you are a 
+      premium customer, in which case you can 
+      use clientId 
+      */
+    })
   ],
   providers:[
     RestaurantsService

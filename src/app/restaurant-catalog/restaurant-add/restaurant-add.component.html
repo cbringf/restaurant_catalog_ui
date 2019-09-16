@@ -13,7 +13,7 @@
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Restaurant Description" formControlName="RestaurantDescription"></textarea>
           </mat-form-field>
-          <mat-card-subtitle style="color:black">Contact Data</mat-card-subtitle>
+          <mat-card-subtitle style="color:black"><strong>Data</strong></mat-card-subtitle>
           <mat-form-field class="example-full-width">
             <input type="tel" matInput placeholder="Restaurant phone" formControlName="RestaurantPhone" required>
             <mat-icon matSuffix>mode_edit</mat-icon>
@@ -29,7 +29,7 @@
                   <!-- Email is <strong>required</strong>
               </mat-error> -->
           </mat-form-field>
-          <mat-card-subtitle style="color:black">Chef</mat-card-subtitle>
+          <mat-card-subtitle style="color:black"><strong>Chef</strong></mat-card-subtitle>
           <mat-form-field class="example-full-width">
               <input matInput placeholder="Restaurant Chef" formControlName="RestaurantChef" required>
               <mat-error *ngIf="angForm.controls['RestaurantChef'].invalid && (angForm.controls['RestaurantChef'].dirty || angForm.controls['RestaurantChef'].touched) " class="alert alert-danger">Restaurant Chef Name is required</mat-error>
@@ -49,8 +49,35 @@
           <span>Restaurant Rating: <star-rating-control [starType]="'svg'" formControlName="RestaurantRating"></star-rating-control></span>
               <!-- <star-rating [starType]="'svg'" [rating]="currentRate"></star-rating> -->
               <!-- <pre>{{ angForm.value.RestaurantRating | json }}</pre> -->
-      
-          
+          <mat-card-subtitle style="color:black"><strong>Restaurant Location</strong></mat-card-subtitle>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Restaurant Address" formControlName="RestaurantAddress" [(ngModel)]="address" readonly>
+            <mat-error *ngIf="angForm.controls['RestaurantAddress'].invalid && (angForm.controls['RestaurantAddress'].dirty || angForm.controls['RestaurantAddress'].touched) " class="alert alert-danger">Restaurant Latitud is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Restaurant Latitude" formControlName="RestaurantLat" [(ngModel)]="lat" readonly>
+            <mat-error *ngIf="angForm.controls['RestaurantLat'].invalid && (angForm.controls['RestaurantLat'].dirty || angForm.controls['RestaurantLat'].touched) " class="alert alert-danger">Restaurant Latitud is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Restaurant Latitude" formControlName="RestaurantLng" [(ngModel)]="lng" readonly>
+            <mat-error *ngIf="angForm.controls['RestaurantLng'].invalid && (angForm.controls['RestaurantLng'].dirty || angForm.controls['RestaurantLng'].touched) " class="alert alert-danger">Restaurant Longitude is required</mat-error>
+          </mat-form-field>
+          <agm-map style="height: 300px;"
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            (mapClick)="addMarker($event.coords.lat, $event.coords.lng)"
+            >
+            <agm-marker
+              *ngFor="let marker of markers"
+              [latitude]="marker.lat"
+              [longitude]="marker.lng"
+              [opacity]="marker.alpha"
+              [markerDraggable]="true"
+              (dragEnd)="markerDragEnd($event)"
+            ></agm-marker>
+            <h5>Address: {{address}}</h5>
+          </agm-map>
         </form>
         <mat-divider></mat-divider>
     </mat-card-content>
