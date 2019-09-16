@@ -1,25 +1,23 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RestaurantAddComponent } from './restaurant-add/restaurant-add.component';
-import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.component';
-import { RestaurantGetComponent } from './restaurant-get/restaurant-get.component';
-import { RestaurantsMapComponent } from './restaurants-map/restaurants-map.component';
+import { AuthGuard } from './core/services/guards/auth.guard';
+
+
 const routes: Routes = [
   {
-    path: 'restaurant/create',
-    component: RestaurantAddComponent
+    path: 'authentication',
+    loadChildren: () => import('./authentication/authentication.module').then(mod => mod.AuthenticationModule)
   },
   {
-    path: 'edit/:id',
-    component: RestaurantEditComponent
+    path: 'restaurant',
+    loadChildren: () => import('./restaurant-catalog/restaurant-catalog.module').then(mod => mod.RestaurantCatalogModule),
+    canActivate: [AuthGuard]
   },
   {
-    path: 'restaurants',
-    component: RestaurantGetComponent
-  },
-  {
-    path: 'restaurants/maps',
-    component: RestaurantsMapComponent
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   }
 ];
 

@@ -24,8 +24,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.scss",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": []
           },
@@ -121,6 +121,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "restaurant"
+    }
+  },
+  "defaultProject": "restaurant",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }

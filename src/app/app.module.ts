@@ -1,47 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RestaurantAddComponent } from './restaurant-add/restaurant-add.component';
-import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.component';
-import { RestaurantGetComponent } from './restaurant-get/restaurant-get.component';
-import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
-import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { RestaurantsService } from './restaurants.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SliderModule } from 'angular-image-slider';
-import { RestaurantsMapComponent } from './restaurants-map/restaurants-map.component';
-import { AgmCoreModule } from '@agm/core'
-
+import { JwtInterceptor } from './core/services/interceptors/jwt.interceptor';
+import { ErrorInterceptor } from './core/services/interceptors/error.interceptor';
+import { MaterialModule } from './core/material/material.module';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RestaurantAddComponent,
-    RestaurantEditComponent,
-    RestaurantGetComponent,
-    RestaurantsMapComponent
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    SlimLoadingBarModule,
+    BrowserAnimationsModule,
     HttpClientModule,
-    NgbModule,
-    SliderModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAQuN3NtOS0UbQpRNVtjtbr5d4jccsPjyU'
-      /* apiKey is required, unless you are a 
-      premium customer, in which case you can 
-      use clientId 
-      */
-    })
+    MaterialModule,
+    StarRatingModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [
-    RestaurantsService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })
