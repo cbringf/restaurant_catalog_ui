@@ -22,14 +22,34 @@ export class RestaurantAddComponent implements OnInit {
         RestaurantName: new FormControl('', [Validators.required]),
         RestaurantDescription: new FormControl(''),
         RestaurantPhone: new FormControl('', [Validators.required]),
-        RestaurantMail: new FormControl('', [Validators.required, Validators.email]),
+        RestaurantMail: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        ])),
         RestaurantChef: new FormControl('', [Validators.required]),
         RestaurantChefPhone: new FormControl('', [Validators.required]),
-        RestaurantChefMail: new FormControl('', [Validators.required, Validators.email]),
+        RestaurantChefMail: new FormControl('', Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+        ])),
         RestaurantRating: new FormControl('')
      });
   }
   currentRate = 2.5;
+
+  restaurant_validation_messages = {
+    // 'username': [
+    //   { type: 'required', message: 'Username is required' },
+    //   { type: 'minlength', message: 'Username must be at least 5 characters long' },
+    //   { type: 'maxlength', message: 'Username cannot be more than 25 characters long' },
+    //   { type: 'pattern', message: 'Your username must contain only numbers and letters' },
+    //   { type: 'validUsername', message: 'Your username has already been taken' }
+    // ],
+    'email': [
+      { type: 'required', message: 'Email is required' },
+      { type: 'pattern', message: 'Enter a valid email' }
+    ]
+  }
   
   
 
@@ -80,6 +100,7 @@ export class RestaurantAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.info('aaaa', this.angForm)
   }
 
 

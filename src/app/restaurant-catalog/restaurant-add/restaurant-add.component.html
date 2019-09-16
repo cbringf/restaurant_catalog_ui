@@ -21,10 +21,13 @@
           </mat-form-field>
           <mat-form-field class="example-full-width">
               <input matInput placeholder="Restaurant  email" formControlName="RestaurantMail" required>
-              <mat-error *ngIf="angForm.controls['RestaurantMail'].invalid && (angForm.controls['RestaurantMail'].dirty || angForm.controls['RestaurantMail'].touched)">Please enter a valid email address</mat-error>
-              <mat-error *ngIf="angForm.controls['RestaurantMail'].required">
-                  Email is <strong>required</strong>
+              <mat-error *ngFor="let validation of restaurant_validation_messages.email">
+                <mat-error class="error-message" *ngIf="angForm.get('RestaurantMail').hasError(validation.type) && (angForm.get('RestaurantMail').dirty || angForm.get('RestaurantMail').touched)">{{validation.message}}</mat-error>
               </mat-error>
+              <!-- <mat-error *ngIf="angForm.controls['RestaurantMail'].invalid && (angForm.controls['RestaurantMail'].dirty || angForm.controls['RestaurantMail'].touched)">Please enter a valid email address</mat-error>
+              <mat-error *ngIf="angForm.controls['RestaurantMail'].required"> -->
+                  <!-- Email is <strong>required</strong>
+              </mat-error> -->
           </mat-form-field>
           <mat-card-subtitle style="color:black">Chef</mat-card-subtitle>
           <mat-form-field class="example-full-width">
