@@ -34,7 +34,7 @@ export class RestaurantsService {
 
     this
       .http
-      .patch(`${this.api_url}/restaurant/edit/${id}`, restaurant_obj)
+      .patch(`${this.api_url}/restaurant/${id}`, restaurant_obj)
       .subscribe(res => console.log('Done'));
   }
 

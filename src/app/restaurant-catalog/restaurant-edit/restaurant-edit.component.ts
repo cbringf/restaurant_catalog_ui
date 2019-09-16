@@ -5,7 +5,7 @@ import { RestaurantsService } from '../services/restaurant.service';
 @Component({
   selector: 'app-restaurant-edit',
   templateUrl: './restaurant-edit.component.html',
-  styles: []
+  styleUrls: ['./restaurant-edit.component.css']
 })
 export class RestaurantEditComponent implements OnInit {
   angForm: FormGroup;
@@ -28,10 +28,10 @@ export class RestaurantEditComponent implements OnInit {
    });
   }
 
-  updateRestaurant(form_data, id) {
+  updateRestaurant(form_data) {
     this.route.params.subscribe(params => {
       console.info('params', params)
-      this.rs.updateRestaurant(form_data.value, id);
+      this.rs.updateRestaurant(form_data.value, params.id);
       this.router.navigate(['restaurant']);
     });
   }
