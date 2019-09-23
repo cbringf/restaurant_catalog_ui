@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'restaurant',
     loadChildren: () => import('./restaurant-catalog/restaurant-catalog.module').then(mod => mod.RestaurantCatalogModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   }
-  // {
-  //   path: '',
-  //   redirectTo: '',
-  //   pathMatch: 'full',
-  //   canActivate: [AuthGuard]
-  // }
 ];
 
 @NgModule({
