@@ -63,9 +63,9 @@ export class RestaurantMapComponent implements OnInit {
     this.rs.getRestaurants().pipe(map(res => res)).subscribe(res => {
       console.info('res',res)
       res.data.forEach(element => {
-        this.markers.push({lat:element.RestaurantLat, lng:element.RestaurantLat, alpha: 0.4})
+        this.markers.push({lat:element.RestaurantLat, lng:element.RestaurantLng, alpha: 0.4})
       });
-      console.info(this.markers)
+      console.info('********',this.markers)
     });
     
   }

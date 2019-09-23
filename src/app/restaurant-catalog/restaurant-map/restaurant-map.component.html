@@ -1,17 +1,16 @@
 <agm-map style="height: 300px;"
-      [latitude]="latitude"
-      [longitude]="longitude"
-      [zoom]="2"
-    >
-      <agm-marker
-        *ngFor="let marker of markers"
-        [latitude]="marker.lat"
-        [longitude]="marker.lng"
-        [opacity]="marker.alpha"
-        [markerDraggable]="true"
-      >
-      </agm-marker>
-    </agm-map>
-    <!-- <p *ngIf="selectedMarker">
-      Lat: {{ selectedMarker.lat }} Lng: {{ selectedMarker.lng }}
-    </p> -->
+            [latitude]="lat"
+            [longitude]="lng"
+            [zoom]="zoom"
+            (mapClick)="addMarker($event.coords.lat, $event.coords.lng)"
+            >
+            <agm-marker
+              *ngFor="let marker of markers"
+              [latitude]="marker.lat"
+              [longitude]="marker.lng"
+              [opacity]="marker.alpha"
+              [markerDraggable]="true"
+              (dragEnd)="markerDragEnd($event)"
+            ></agm-marker>
+            <h5>Address: {{address}}</h5>
+          </agm-map>
