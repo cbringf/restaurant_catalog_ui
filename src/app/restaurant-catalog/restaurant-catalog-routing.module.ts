@@ -4,6 +4,7 @@ import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.compo
 import { RestaurantGetComponent } from './restaurant-get/restaurant-get.component';
 import { AuthGuard } from '../core/services/guards/auth.guard';
 import { RestaurantAddComponent } from './restaurant-add/restaurant-add.component';
+import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
 
 
 const routes: Routes = [
@@ -23,11 +24,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   
-  // {
-  //   path: 'restaurants/maps',
-  //   component: RestaurantsMapComponent,
-  //   canActivate: [AuthGuard]
-  // },
+  {
+    path: 'maps',
+    component: RestaurantMapComponent,
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

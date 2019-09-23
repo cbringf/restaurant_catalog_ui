@@ -63,7 +63,6 @@
           <mat-card-subtitle style="color:black"><strong>Restaurant Location</strong></mat-card-subtitle>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Restaurant Address" formControlName="RestaurantAddress" [(ngModel)]="address" readonly>
-            <mat-error *ngIf="angForm.controls['RestaurantAddress'].invalid && (angForm.controls['RestaurantAddress'].dirty || angForm.controls['RestaurantAddress'].touched) " class="alert alert-danger">Restaurant Latitud is required</mat-error>
           </mat-form-field>
           <mat-form-field class="example-full-width">
             <input matInput placeholder="Restaurant Latitude" formControlName="RestaurantLat" [(ngModel)]="lat" readonly>
@@ -94,7 +93,7 @@
     </mat-card-content>
     <mat-divider></mat-divider>
     <mat-card-actions>
-        <button mat-raised-button color="primary" [disabled]="angForm.pristine || angForm.invalid" (click)=addRestaurant(angForm)>Create</button>
+        <button mat-raised-button color="primary" (click)=addRestaurant(angForm)>Create</button>
         <!-- <button mat-raised-button>SHARE</button> -->
       </mat-card-actions>
 </mat-card>

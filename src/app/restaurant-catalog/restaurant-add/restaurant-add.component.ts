@@ -87,7 +87,7 @@ export class RestaurantAddComponent implements OnInit {
         RestaurantRating: new FormControl(''),
         RestaurantLat: new FormControl('', Validators.required),
         RestaurantLng: new FormControl('', Validators.required),
-        RestaurantAddress: new FormControl('', Validators.required),
+        RestaurantAddress: new FormControl('', ),
         country_phone: this.country_phone_group
       })
   }

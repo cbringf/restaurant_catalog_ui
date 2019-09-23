@@ -10,11 +10,12 @@ import { RestaurantsService } from './services/restaurant.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../core/material/material.module';
 import { AgmCoreModule } from '@agm/core';
+import { RestaurantMapComponent } from './restaurant-map/restaurant-map.component';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
-  declarations: [RestaurantAddComponent, RestaurantEditComponent, RestaurantGetComponent],
+  declarations: [RestaurantAddComponent, RestaurantEditComponent, RestaurantGetComponent, RestaurantMapComponent],
   imports: [
     CommonModule,
     MaterialModule,
