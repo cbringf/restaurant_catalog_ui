@@ -13,6 +13,7 @@ export class AuthenticationService {
   apiUrl = 'http://localhost:3030';
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
+  public isLoggedIn = false;
   
   constructor(
     private http: HttpClient,
@@ -33,13 +34,17 @@ export class AuthenticationService {
         console.info('user', username);
         let userData = { "email":username, "password":password, "strategy":'local' }
         return this.http.post<any>(`${this.apiUrl}/authentication/`, userData)
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                console.info('localstorage', localStorage);
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+            .pipe(map(user => user)).subscribe(
+                  user =>{
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    localStorage.setItem('currentUser', JSON.stringify(user));
+                    this.currentUserSubject.next(user);
+                    this.isLoggedIn = true;
+                  },
+                  error => {
+                    this.isLoggedIn = false;
+                  }
+            )
    }
 
    logout() {
