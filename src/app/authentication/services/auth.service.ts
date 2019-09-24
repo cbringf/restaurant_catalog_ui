@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { User } from '../models/user';
 import { Router } from '@angular/router';
 
@@ -34,17 +34,14 @@ export class AuthenticationService {
         console.info('user', username);
         let userData = { "email":username, "password":password, "strategy":'local' }
         return this.http.post<any>(`${this.apiUrl}/authentication/`, userData)
-            .pipe(map(user => user)).subscribe(
-                  user =>{
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                    this.currentUserSubject.next(user);
-                    this.isLoggedIn = true;
-                  },
-                  error => {
-                    this.isLoggedIn = false;
-                  }
-            )
+            .pipe(map(user => {
+              localStorage.setItem('currentUser', JSON.stringify(user));
+              this.currentUserSubject.next(user);
+              this.isLoggedIn = true;
+            },catchError =>{
+              console.info('error:', catchError)
+                this.isLoggedIn = false;
+            }))
    }
 
    logout() {
