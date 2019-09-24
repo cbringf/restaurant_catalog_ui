@@ -38,24 +38,20 @@ export class RestaurantMapComponent implements OnInit {
 
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 10;
           this.address = results[0].formatted_address;
         } else {
-          window.alert('No results found');
+         console.info('No results found');
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        console.info('Geocoder failed due to: ' + status);
       }
- 
     });
   }
 
   ngOnInit() {
-
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -65,10 +61,6 @@ export class RestaurantMapComponent implements OnInit {
       res.data.forEach(element => {
         this.markers.push({lat:element.RestaurantLat, lng:element.RestaurantLng, alpha: 0.4})
       });
-      console.info('********',this.markers)
     });
-    
   }
-  
-
 }

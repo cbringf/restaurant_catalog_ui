@@ -31,6 +31,18 @@ export class RestaurantEditComponent implements OnInit {
     this.markers = [];
   }
 
+  // Get Current Location Coordinates
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(this.lat, this.lng);
+      });
+    }
+  }
+
   createForm() {
     this.angForm = new FormGroup({
       RestaurantName: new FormControl('', [Validators.required]),
@@ -69,17 +81,6 @@ export class RestaurantEditComponent implements OnInit {
     this.lng = $event.coords.lng;
     this.getAddress(this.lat, this.lng);
   }
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.lat, this.lng);
-      });
-    }
-  }
  
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
@@ -112,7 +113,4 @@ export class RestaurantEditComponent implements OnInit {
       });
     });
   }
-
-
-
 }

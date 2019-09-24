@@ -20,6 +20,7 @@ export class RestaurantGetComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   displayedColumns: string[] = ['id', 'name', 'progress', 'color', 'delete'];
   dataSource: MatTableDataSource<Restaurant>;
+  needRefresh: Subject<any> = new Subject<any>();
   
   constructor(
     private rs: RestaurantsService,
@@ -28,32 +29,10 @@ export class RestaurantGetComponent implements OnInit {
       this.dataSource = new MatTableDataSource();      
     }
   
-
-  
-
-  needRefresh: Subject<any> = new Subject<any>();
-
   deleteRestaurant(id) {
     this.rs.deleteRestaurant(id).subscribe(res => {
       this.needRefresh.next();
     });
-  }
-
-  ngOnInit() {
-    console.info('*****', this.dataSource)
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    
-    this.needRefresh.pipe(
-      switchMap(() => this.rs.getRestaurants()),
-      map(res => res)
-    ).subscribe(res => {
-      this.restaurants = res;
-      console.info('jaja', this.restaurants)
-      this.dataSource.data = this.restaurants.data;
-      console.info(this.dataSource)
-    });    
-    this.needRefresh.next();
   }
 
   applyFilter(filterValue: string) {
@@ -62,6 +41,20 @@ export class RestaurantGetComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    
+    this.needRefresh.pipe(
+      switchMap(() => this.rs.getRestaurants()),
+      map(res => res)
+    ).subscribe(res => {
+      this.restaurants = res;
+      this.dataSource.data = this.restaurants.data;
+    });    
+    this.needRefresh.next();
   }
 
 }

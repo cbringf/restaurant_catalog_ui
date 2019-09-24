@@ -118,6 +118,18 @@ export class RestaurantAddComponent implements OnInit {
     ]
   }
 
+  // Get Current Location Coordinates
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.zoom = 8;
+        this.getAddress(this.lat, this.lng);
+      });
+    }
+  }
+
   addMarker(lat: number, lng: number) {
     this.markers = []
     this.markers.push({lat, lng, alpha:0.4})
@@ -161,17 +173,6 @@ export class RestaurantAddComponent implements OnInit {
     this.router.navigate(['restaurant']);
   }
 
-  // Get Current Location Coordinates
-  private setCurrentLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.lat, this.lng);
-      });
-    }
-  }
   markerDragEnd($event: MouseEvent) {
     console.log($event);
     this.lat = $event.coords.lat;
@@ -204,6 +205,4 @@ export class RestaurantAddComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder;
     });
   }
-
-
 }

@@ -29,9 +29,6 @@ export class RestaurantsService {
   }
 
   updateRestaurant(restaurant_obj, id) {
-    console.info('88888888888888888', id);
-    console.info('88888888888888888', restaurant_obj);
-
     this
       .http
       .patch(`${this.api_url}/restaurant/${id}`, restaurant_obj)
@@ -39,7 +36,6 @@ export class RestaurantsService {
   }
 
   deleteRestaurant(id): Observable<any> {
-    console.info('id a borrar', id)
     return this.http.delete(`${this.api_url}/restaurant/${id}`);
   }
 }
